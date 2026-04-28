@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Portfolio — Portfolio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0A0A0F;color:#E8E8ED;min-height:100vh}
+::selection{background:#C084FC;color:#0A0A0F}
+a{color:#C084FC;text-decoration:none}a:hover{text-decoration:underline}
+
+/* NAV */
+.nav{padding:20px 32px;border-bottom:1px solid #1A1A24;display:flex;align-items:baseline;gap:14}
+.nav h2{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;letter-spacing:-0.02em}
+.nav span{color:#C084FC}
+.nav p{font-size:12px;color:#555568}
+
+/* ABOUT */
+.about{padding:40px 32px;max-width:900px;margin:0 auto}
+.about-content{display:flex;gap:24;align-items:flex-start}
+.about-text{width:100%}
+.about-photo-wrap{float:right;margin:0 0 16px 24px}
+.about-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid #1A1A24}
+.about-name{font-family:'DM Serif Display',serif;font-size:36px;letter-spacing:-0.02em;margin-bottom:4px;color:#E8E8ED}
+.about-title{font-size:16px;color:#C084FC;font-weight:500;margin-bottom:6px}
+.about-location{font-size:13px;color:#888;margin-bottom:16px}
+.about-bio{font-size:14px;line-height:1.8;color:#AAAAB0;margin-bottom:20px;max-width:600px}
+.about-skills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.skill-tag{font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 12px;border-radius:6px;background:rgba(192,132,252,0.1);color:#C084FC;border:1px solid rgba(192,132,252,0.2)}
+.about-links{display:flex;flex-wrap:wrap;gap:16px}
+.about-links a{font-size:13px;color:#C084FC;transition:opacity 0.2s}
+.about-links a:hover{opacity:0.8}
+
+/* PROJECTS */
+.projects-header{padding:32px 32px 16px;max-width:900px;margin:0 auto}
+.projects-header h2{font-family:'DM Serif Display',serif;font-size:22px;color:#888;font-weight:400}
+.projects{max-width:900px;margin:0 auto;padding:0 32px 60px;display:flex;flex-direction:column;gap:20px}
+.project-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e0e0e0}
+.p-header{padding:20px 24px 14px;position:relative}
+.p-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;padding:3px 10px;border-radius:8px;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);margin-bottom:8px}
+.p-title{font-size:22px;font-weight:500;color:#fff;letter-spacing:-0.3px;margin:0}
+.p-status{display:flex;align-items:center;gap:5px;font-size:12px;margin-top:8px}
+.sdot{width:7px;height:7px;border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.p-body{padding:20px 24px}
+.metrics{display:grid;gap:8px;margin-bottom:16px}
+.metric{background:#f5f5f0;border-radius:8px;padding:10px 12px;text-align:center}
+.mv{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:500;color:#222}
+.ml{font-size:11px;color:#888;margin-top:2px}
+.tabs{display:flex;border-bottom:1px solid #e0e0e0;margin-bottom:12px}
+.tab{padding:8px 14px;font-size:13px;font-weight:500;color:#888;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.tab.active{color:#222;border-bottom-color:#534AB7}
+.tab:hover{color:#222}
+.tab-c{display:none}.tab-c.active{display:block}
+.desc{font-size:14px;line-height:1.7;color:#222}
+.muted{font-size:14px;color:#888}
+.arch{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;color:#666;background:#f5f5f0;padding:12px 16px;border-radius:8px;white-space:pre;overflow-x:auto}
+.tech-grid{display:flex;flex-wrap:wrap;gap:6px}
+.tech{font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 10px;border-radius:8px;background:#f5f5f0;color:#666;border:1px solid #e0e0e0}
+.highlights{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hl{padding:10px 12px;border-radius:8px;border-left:3px solid;background:#f5f5f0}
+.hl-t{font-size:13px;font-weight:500;color:#222}.hl-d{font-size:12px;color:#888;margin-top:2px}
+.p-links{margin-top:16px;padding-top:12px;border-top:1px solid #e0e0e0;display:flex;gap:16px}
+.p-links a{font-size:13px;color:#185FA5}
+
+.footer-exp{text-align:center;padding:20px;font-size:11px;color:#333340;font-family:'JetBrains Mono',monospace;border-top:1px solid #1A1A24}
+@media(max-width:600px){.highlights{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)!important}.about-photo-wrap{float:none;margin:0 0 16px 0}}
+</style></head><body>
+<nav class="nav"><h2><span>◈</span> Mi Portfolio</h2><p>Portfolio de desarrollos</p></nav>
+
+<div class="projects-header"><h2>1 Proyecto</h2></div>
+<div class="projects"><div class="project-card">
+  <div class="p-header" style="background:linear-gradient(135deg,#26215C 0%,#0F6E56 50%,#042C53 100%)">
+    <span class="p-badge">DeFi / Blockchain</span>
+    <h3 class="p-title">ALM - Automated Liquidity Manager</h3>
+    <div class="p-status" style="color:#F59E0B"><span class="sdot" style="background:#F59E0B"></span>En progreso</div>
+  </div>
+  <div class="p-body">
+    <div class="metrics" style="grid-template-columns:repeat(4,1fr)"><div class="metric"><div class="mv">82</div><div class="ml">Unit tests</div></div><div class="metric"><div class="mv">24</div><div class="ml">Modules</div></div><div class="metric"><div class="mv">$39</div><div class="ml">Capital activo</div></div><div class="metric"><div class="mv">138%</div><div class="ml">APY estimado</div></div></div>
+    <div class="tabs" data-proj="0">
+      <div class="tab active" onclick="stab(0,0)">Overview</div>
+      <div class="tab" onclick="stab(0,1)">Arquitectura</div>
+      <div class="tab" onclick="stab(0,2)">Tech Stack</div>
+      <div class="tab" onclick="stab(0,3)">Highlights</div>
+    </div>
+    <div class="tab-c active" data-proj="0" data-tab="0"><p class="desc">Sistema completo de gestión automatizada de liquidez para Uniswap V3 desplegado en Polygon. Monitorea precios en tiempo real via WebSocket/RPC, calcula rangos óptimos usando Bandas de Bollinger, ejecuta rebalanceos con buffer zone para minimizar gas, y reinvierte comisiones automáticamente. Incluye circuit breaker de emergencia, base de datos SQLite para tracking de performance, y bot de Telegram bilingüe para control remoto desde el celular.</p></div>
+    <div class="tab-c" data-proj="0" data-tab="1"><div class="arch">Orchestrator (main.py)
+├── Price Monitor     (WebSocket/HTTP feed)
+├── Volatility Engine (Bollinger Bands)
+├── Rebalancer        (State machine + buffer)
+├── Circuit Breaker   (Crash detection)
+├── Auto-Compounder   (Fee reinvestment)
+│
+├── Blockchain Layer
+│   ├── Web3 Client   (Gas, nonce, tx signing)
+│   ├── Uniswap V3    (Mint, burn, collect, swap)
+│   └── Contract ABIs (Position Manager, Router)
+│
+├── Database Layer
+│   ├── SQLAlchemy ORM (Models, repository)
+│   └── Performance Tracker (Snapshots, metrics)
+│
+└── Telegram Bot      (Bilingual ES/EN, buttons)</div></div>
+    <div class="tab-c" data-proj="0" data-tab="2"><div class="tech-grid"><span class="tech">Python</span><span class="tech">Web3</span><span class="tech">AsyncIO</span><span class="tech">SQL</span><span class="tech">Telegram</span><span class="tech">API</span><span class="tech">CLI</span><span class="tech">Data</span></div></div>
+    <div class="tab-c" data-proj="0" data-tab="3"><div class="highlights"><div class="hl" style="border-left-color:#534AB7"><div class="hl-t">Rebalanceo inteligente</div><div class="hl-d">Buffer zone + Bollinger Bands evitan rebalanceos innecesarios</div></div><div class="hl" style="border-left-color:#0F6E56"><div class="hl-t">Circuit breaker</div><div class="hl-d">Detiene operaciones si el precio cae &gt;10% en 1 hora</div></div><div class="hl" style="border-left-color:#185FA5"><div class="hl-t">Cache bypass</div><div class="hl-d">Multi-RPC para resolver bug de cache USDT0 en Alchemy</div></div><div class="hl" style="border-left-color:#D85A30"><div class="hl-t">Control remoto</div><div class="hl-d">Bot Telegram bilingüe con botones para operar desde el celular</div></div></div></div>
+    
+  </div>
+</div></div>
+<div class="footer-exp">Generado desde Mi Portfolio</div>
+<script>
+function stab(p,n){
+  document.querySelectorAll('.tabs[data-proj="'+p+'"] .tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-c[data-proj="'+p+'"]').forEach((c,i)=>c.classList.toggle('active',parseInt(c.dataset.tab)===n));
+}
+</script></body></html>
