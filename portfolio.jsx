@@ -16,7 +16,8 @@ const GRADIENTS = [
 const HLC = ["#534AB7","#0F6E56","#185FA5","#D85A30","#B7374A","#2D8A6E","#8B5CF6","#D97706"];
 function gid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
-const EMPTY_PROFILE = { name:"", title:"", bio:"", location:"", email:"", github:"", linkedin:"", website:"", skills:"", photo:"" };
+const EMPTY_PROFILE = { name:"", title:"", bio:"", location:"", email:"", github:"", linkedin:"", website:"", skills:"", photo:"", hobbies:"" };
+const HOBBY_ICONS = {"Gaming":"🎮","Música":"🎵","Lectura":"📚","Cine":"🎬","Fotografía":"📷","Viajes":"✈️","Cocina":"🍳","Deportes":"⚽","Arte":"🎨","Crypto":"₿","Fitness":"💪","Naturaleza":"🌿","Ajedrez":"♟️","Podcast":"🎙️","DIY":"🔧","Escritura":"✍️"};
 const EMPTY_PROJECT = {
   title:"",badge:"",description:"",tags:[],status:"En progreso",url:"",repo:"",
   date:new Date().toISOString().split("T")[0],
@@ -39,6 +40,7 @@ const ALM = {
 function exportFullHTML(profile, projects) {
   const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const skillsList = (profile.skills||"").split(",").map(s=>s.trim()).filter(Boolean);
+  const hobbiesList = (profile.hobbies||"").split(",").map(s=>s.trim()).filter(Boolean);
 
   const projectCards = projects.map((p,idx) => {
     const grad = GRADIENTS[p.gradient||0];
@@ -84,6 +86,7 @@ function exportFullHTML(profile, projects) {
         ${profile.location?`<p class="about-location">📍 ${esc(profile.location)}</p>`:""}
         ${profile.bio?`<p class="about-bio">${esc(profile.bio)}</p>`:""}
         ${skillsList.length?`<div class="about-skills">${skillsList.map(s=>`<span class="skill-tag">${esc(s)}</span>`).join("")}</div>`:""}
+        ${hobbiesList.length?`<div class="about-hobbies"><span class="about-section-label">Hobbies</span><div class="hobby-grid">${hobbiesList.map(h=>{const icon=HOBBY_ICONS[h]||"✦";return `<span class="hobby-tag">${icon} ${esc(h)}</span>`;}).join("")}</div></div>`:""}
         <div class="about-links">
           ${profile.email?`<a href="mailto:${esc(profile.email)}">${esc(profile.email)}</a>`:""}
           ${profile.github?`<a href="${esc(profile.github)}" target="_blank">GitHub ↗</a>`:""}
@@ -122,6 +125,10 @@ a{color:#C084FC;text-decoration:none}a:hover{text-decoration:underline}
 .about-bio{font-size:14px;line-height:1.8;color:#AAAAB0;margin-bottom:20px;max-width:600px}
 .about-skills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
 .skill-tag{font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 12px;border-radius:6px;background:rgba(192,132,252,0.1);color:#C084FC;border:1px solid rgba(192,132,252,0.2)}
+.about-hobbies{margin-bottom:20px}
+.about-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#555568;display:block;margin-bottom:8px}
+.hobby-grid{display:flex;flex-wrap:wrap;gap:8px}
+.hobby-tag{font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(192,132,252,0.06);color:#AAAAB0;border:1px solid #1A1A24;display:inline-flex;align-items:center;gap:4px}
 .about-links{display:flex;flex-wrap:wrap;gap:16px}
 .about-links a{font-size:13px;color:#C084FC;transition:opacity 0.2s}
 .about-links a:hover{opacity:0.8}
@@ -332,7 +339,8 @@ export default function Portfolio() {
               {profile.location && <div style={S.ppLoc}>📍 {profile.location}</div>}
             </div>
           </div>
-          <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+          <div style={{display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
+            {profile.hobbies && profile.hobbies.split(",").filter(h=>h.trim()).map(h=>{const t=h.trim();const icon=HOBBY_ICONS[t]||"✦";return <span key={t} style={S.hobbyPill}>{icon} {t}</span>;}) }
             {profile.email && <a href={`mailto:${profile.email}`} style={S.ppLink}>{profile.email}</a>}
             {profile.github && <a href={profile.github} target="_blank" rel="noopener noreferrer" style={S.ppLink}>GitHub ↗</a>}
             {profile.linkedin && <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" style={S.ppLink}>LinkedIn ↗</a>}
@@ -418,6 +426,21 @@ export default function Portfolio() {
         </div>
         <div style={S.formSection}>
           <div style={S.fGroup}><label style={S.label}>Skills / Tecnologías (separadas por coma)</label><input style={S.input} placeholder="Python, React, Web3, DeFi, SQL..." value={profForm.skills} onChange={e=>setProfForm({...profForm,skills:e.target.value})}/></div>
+        </div>
+        <div style={S.formSection}>
+          <label style={S.label}>Hobbies / Intereses</label>
+          <p style={{fontSize:12,color:"#555568",marginBottom:10}}>Seleccioná o escribí tus hobbies separados por coma.</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:10}}>
+            {Object.entries(HOBBY_ICONS).map(([h,icon])=>{
+              const active=(profForm.hobbies||"").split(",").map(s=>s.trim()).includes(h);
+              return <button key={h} className="tb" style={{...S.tagBtn,...(active?S.hobbyBtnAct:{}),display:"inline-flex",alignItems:"center",gap:4}} onClick={()=>{
+                const list=(profForm.hobbies||"").split(",").map(s=>s.trim()).filter(Boolean);
+                const updated=active?list.filter(x=>x!==h):[...list,h];
+                setProfForm({...profForm,hobbies:updated.join(", ")});
+              }}>{icon} {h}</button>;
+            })}
+          </div>
+          <input style={S.input} placeholder="O escribí los tuyos: Gaming, Música, Viajes..." value={profForm.hobbies} onChange={e=>setProfForm({...profForm,hobbies:e.target.value})}/>
         </div>
         <div style={S.formActions}>
           <button style={S.cancelBtn} onClick={()=>setView("grid")}>Cancelar</button>
@@ -559,6 +582,7 @@ const S = {
   ppTitle:{fontSize:12,color:"#C084FC",fontWeight:500},
   ppLoc:{fontSize:11,color:"#555568",marginTop:2},
   ppLink:{fontSize:12,color:"#C084FC",textDecoration:"none",transition:"opacity 0.2s"},
+  hobbyPill:{fontSize:11,padding:"3px 10px",borderRadius:20,background:"rgba(192,132,252,0.06)",color:"#AAAAB0",border:"1px solid #1A1A24",display:"inline-flex",alignItems:"center",gap:3},
 
   statsBar:{display:"flex",alignItems:"center",gap:20,padding:"16px 24px",background:"#12121A",borderRadius:10,marginBottom:20,border:"1px solid #1A1A24",flexWrap:"wrap"},
   statItem:{display:"flex",flexDirection:"column",alignItems:"center",gap:1},
@@ -618,6 +642,7 @@ const S = {
   input:{background:"#12121A",border:"1px solid #1A1A24",borderRadius:8,padding:"10px 12px",color:"#E8E8ED",fontSize:13,fontFamily:"'JetBrains Mono',monospace",transition:"all 0.2s"},
   tagBtn:{background:"#12121A",border:"1px solid #1A1A24",color:"#888",padding:"5px 12px",borderRadius:6,fontSize:11,cursor:"pointer",fontFamily:"'JetBrains Mono',monospace",transition:"all 0.15s"},
   tagAct:{background:"#C084FC",color:"#0A0A0F",borderColor:"#C084FC"},
+  hobbyBtnAct:{background:"rgba(192,132,252,0.15)",color:"#C084FC",borderColor:"rgba(192,132,252,0.4)"},
   statusBtn:{background:"none",border:"1px solid #1A1A24",color:"#888",padding:"7px 14px",borderRadius:6,fontSize:12,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",fontWeight:600,transition:"all 0.2s"},
   formActions:{display:"flex",justifyContent:"flex-end",gap:10,marginTop:24},
   cancelBtn:{background:"none",border:"1px solid #1A1A24",color:"#888",padding:"9px 22px",borderRadius:8,fontSize:13,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",fontWeight:600},
