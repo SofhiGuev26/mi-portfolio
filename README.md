@@ -38,9 +38,9 @@ React · Tailwind · Persistent Storage · HTML Export
 
 Si te interesa alguno de mis proyectos o querés colaborar, no dudes en contactarme:
 
-- 📧 **Email:** [tu-email@ejemplo.com](mailto:tu-email@ejemplo.com)
+- 📧 **Email:** [tu-email@ejemplo.com](mailto:sofhiapino@gmail.com)
 - 💻 **GitHub:** [@sofhiGuev26](https://github.com/sofhiGuev26)
-- 💼 **LinkedIn:** [tu-perfil](https://linkedin.com/in/tu-perfil)
+- 💼 **LinkedIn:** [tu-perfil](https://www.linkedin.com/in/sofhisof/)
 
 ---
 
